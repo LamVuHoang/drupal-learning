@@ -1,0 +1,7 @@
+hello_world.hello:
+  path: "/hero-list"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::heroList
+    _title: "Top Heroes"
+  requirements:
+    _permission: "access content"
