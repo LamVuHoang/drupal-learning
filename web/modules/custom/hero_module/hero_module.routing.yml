@@ -1,7 +1,15 @@
-hello_world.hello:
+hero_module.hero-list:
   path: "/hero-list"
   defaults:
     _controller: Drupal\hero_module\Controller\HeroController::heroList
     _title: "Top Heroes"
+  requirements:
+    _permission: "access content"
+
+hero_module.salutation:
+  path: "/welcome"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::welcome
+    _title: "Salutation"
   requirements:
     _permission: "access content"

@@ -1,0 +1,3 @@
+services:
+  hero_module.getSalutation:
+    class: Drupal\hero_module\HeroArticleService
