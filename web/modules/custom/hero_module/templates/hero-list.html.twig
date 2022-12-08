@@ -1,0 +1,17 @@
+{# {{ attach_library('hero_module/hero-module-library') }} #}
+
+<h4>{{ title }}</h4>
+<br>
+<strong>This come from Twig file</strong>
+<br>
+<ol>
+	{% for hero in items %}
+		<li>
+			{{ hero.name }}
+		</li>
+	{% endfor %}
+</ol>
+
+<strong id="abc"></strong>
+
+<button id="button-click">Click</button>

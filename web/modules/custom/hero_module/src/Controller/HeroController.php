@@ -38,16 +38,29 @@ class HeroController extends ControllerBase
             ['name' => 'Green Lantern']
         ];
 
-        $heroList = '<ol>';
-
-        foreach ($superHeroes as $hero) {
-            $heroList .= '<li>' . $hero['name'] . '</li>';
-        }
-
-        $heroList .= '</ol>';
-
         return [
-            '#markup' => $heroList
+            '#theme' => 'hero_list',
+            '#items' => $superHeroes,
+            '#title' => $this->t('Behold Our wonderful Superheroes'),
+            '#attached' => [
+                'library' => [
+                    'hero_module/hero-module-library',
+                ],
+            ],
+        ];
+    }
+
+    public function printName(string $param)
+    {
+        return [
+            '#markup' => $this->t('Params: ' . $param)
+        ];
+    }
+
+    public function doubleName(string $param1, string $param2)
+    {
+        return [
+            '#markup' => $this->t('Params 1: ' . $param1 . '<br>Param 2: ' . $param2)
         ];
     }
 

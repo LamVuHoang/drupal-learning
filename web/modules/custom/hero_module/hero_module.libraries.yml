@@ -1,0 +1,6 @@
+hero-module-library:
+  css:
+    theme:
+      css/style.css: {}
+  js:
+    js/app.js: {}

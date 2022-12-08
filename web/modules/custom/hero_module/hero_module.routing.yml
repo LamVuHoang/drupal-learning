@@ -6,6 +6,22 @@ hero_module.hero-list:
   requirements:
     _permission: "access content"
 
+hero_module.print-name:
+  path: "/print-name/{param}"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::printName
+    _title: "Print name"
+  requirements:
+    _permission: "access content"
+
+hero_module.double-name:
+  path: "/double-name/{param1}/{param2}"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::doubleName
+    _title: "Print Double Value"
+  requirements:
+    _permission: "access content"
+
 hero_module.salutation:
   path: "/welcome"
   defaults:
@@ -13,3 +29,4 @@ hero_module.salutation:
     _title: "Salutation"
   requirements:
     _permission: "access content"
+
