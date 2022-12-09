@@ -26,7 +26,6 @@ class HeroController extends ControllerBase
      * Returns a simple page.
      *
      * @return array
-     *   A simple renderable array.
      */
     public function heroList()
     {
@@ -50,6 +49,12 @@ class HeroController extends ControllerBase
         ];
     }
 
+    /**
+     * Returns a simple page.
+     * @param string
+     * 
+     * @return array
+     */
     public function printName(string $param)
     {
         return [
@@ -57,6 +62,13 @@ class HeroController extends ControllerBase
         ];
     }
 
+    /**
+     * Returns a simple page.
+     * @param string param1
+     * @param string param2
+     * 
+     * @return array
+     */
     public function doubleName(string $param1, string $param2)
     {
         return [
@@ -64,6 +76,11 @@ class HeroController extends ControllerBase
         ];
     }
 
+    /**
+     * Returns a simple page.
+     * 
+     * @return array
+     */
     public function welcome()
     {
         return [

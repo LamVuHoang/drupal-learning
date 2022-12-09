@@ -50,6 +50,10 @@
 /web/update.php
 /web/web.config
 
+# Ignore Devel and Webprofiler
+/web/modules/contrib/devel
+/web/modules/contrib/webprofiler
+
 # Ignore vendor dependencies and scripts
 /vendor
 /composer.phar
@@ -61,4 +65,5 @@
 /drupal.phar
 /drupal
 
+# Ignore composer lock
 composer.lock
