@@ -1,0 +1,23 @@
+{{ attach_library('hero_module/stargate-command') }}
+
+
+<h1 class="text-danger">{{ title }}</h1>
+
+<strong>This was made by twig template</strong>
+<br>
+<br>
+<div id="abc" class="hidden self-made text-danger text-uppercase fs-1 font-weight-bold">
+	I have clicked this button.
+</div>
+<br>
+<ul>
+	{% for item in items %}
+		<li class="text-primary">
+			{{ item }}
+		</li>
+	{% endfor %}
+</ul>
+
+<br>
+
+<button class="btn btn-success" id="let-click">Click Button</button>

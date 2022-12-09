@@ -11,6 +11,12 @@ function hero_module_theme($existing, $type, $theme, $path)
                 'items' => [],
                 'title' => ''
             ]
+        ],
+        'exercise' => [
+            'variables' => [
+                'items' => [],
+                'title' => ''
+            ]
         ]
     ];
 }

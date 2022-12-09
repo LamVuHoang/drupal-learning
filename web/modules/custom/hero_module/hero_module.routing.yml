@@ -30,3 +30,10 @@ hero_module.salutation:
   requirements:
     _permission: "access content"
 
+hero_module.exercise:
+  path: "/exercise"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::exercise
+    _title: "Exercise"
+  requirements:
+    _permission: "access content"

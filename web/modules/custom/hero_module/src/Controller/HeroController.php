@@ -87,4 +87,18 @@ class HeroController extends ControllerBase
             '#markup' => $this->_heroArticleService->getSalutation()
         ];
     }
+
+    public function exercise()
+    {
+        $arr = [
+            'Samantha Carter',
+            'Daniel Jackson',
+            'Teal\'c'
+        ];
+        return [
+            '#theme' => 'exercise',
+            '#items' => $arr,
+            '#title' => $this->t('Stargate command'),
+        ];
+    }
 }
