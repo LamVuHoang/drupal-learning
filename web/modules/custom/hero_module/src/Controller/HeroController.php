@@ -101,4 +101,11 @@ class HeroController extends ControllerBase
             '#title' => $this->t('Stargate command'),
         ];
     }
+
+    public function testRepo()
+    {
+        return [
+            '#markup' => $this->t($this->_heroArticleService->testRepo())
+        ];
+    }
 }

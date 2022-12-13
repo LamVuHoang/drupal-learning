@@ -37,3 +37,11 @@ hero_module.exercise:
     _title: "Exercise"
   requirements:
     _permission: "access content"
+
+hero_module.test-repo:
+  path: "/test-repo"
+  defaults:
+    _controller: Drupal\hero_module\Controller\HeroController::testRepo
+    _title: "Test Repository"
+  requirements:
+    _permission: "access content"

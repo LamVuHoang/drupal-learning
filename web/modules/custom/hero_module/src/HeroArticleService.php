@@ -2,6 +2,8 @@
 
 namespace Drupal\hero_module;
 
+use Drupal\hero_module\Repository\HeroRepository;
+
 class HeroArticleService
 {
     public function getSalutation()
@@ -17,5 +19,13 @@ class HeroArticleService
         if ($now >= 18) {
             return 'Good evening world';
         }
+    }
+
+    public function testRepo()
+    {
+        $repo = new HeroRepository;
+        return $repo->testRepo();
+
+        // return $this->_heroRepository->testRepo();
     }
 }
