@@ -66,5 +66,6 @@
 /drupal
 /bin
 
-# Ignore composer lock
+# Ignore auto-generate file
 composer.lock
+.editorconfig
