@@ -64,6 +64,7 @@
 /drush
 /drupal.phar
 /drupal
+/bin
 
 # Ignore composer lock
 composer.lock
