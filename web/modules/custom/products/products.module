@@ -1,0 +1,7 @@
+<?php
+
+
+function hook_products_importer_info_alter()
+{
+    
+}

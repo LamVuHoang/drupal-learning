@@ -4,3 +4,10 @@ entity.product.collection:
   description: "List Product entities"
   parent: system.admin_structure
   weight: 100
+
+entity.importer.collection:
+  title: "Importer list"
+  route_name: entity.importer.collection
+  description: "List Importer entities"
+  parent: system.admin_structure
+  weight: 99
