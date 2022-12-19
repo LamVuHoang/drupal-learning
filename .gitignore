@@ -68,3 +68,5 @@
 
 # Ignore composer lock
 composer.lock
+.editorconfig
+.gitattributes
