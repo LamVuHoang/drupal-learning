@@ -69,3 +69,6 @@
 # Ignore auto-generate file
 composer.lock
 .editorconfig
+
+# Contrib Theme
+/web/themes/contrib/bootstrap

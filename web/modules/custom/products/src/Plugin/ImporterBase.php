@@ -28,12 +28,17 @@ abstract class ImporterBase extends PluginBase implements
      */
     protected $httpClient;
 
-    
+
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entityTypeManager, Client $httpClient)
-    {
+    public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        EntityTypeManager $entityTypeManager,
+        Client $httpClient
+    ) {
         parent::__construct($configuration, $plugin_id, $plugin_definition);
         $this->entityTypeManager = $entityTypeManager;
         $this->httpClient = $httpClient;
@@ -45,7 +50,7 @@ abstract class ImporterBase extends PluginBase implements
         }
     }
 
-    
+
     /**
      * {@inheritdoc}
      */

@@ -10,8 +10,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 interface ImporterPluginInterface extends PluginInspectionInterface
 {
     /**
-     * Performs the import. Returns TRUE if the import was
-successful or FALSE otherwise.
+     * Performs the import. Returns TRUE if the import was successful or FALSE otherwise.
      *
      * @return bool
      */
