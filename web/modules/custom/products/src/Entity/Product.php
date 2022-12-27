@@ -34,14 +34,19 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *          "id" = "id",
  *          "label" = "name",
  *          "uuid" = "uuid",
+ *          "bundle" = "type",
  *      },
+ *      bundle_entity_type = "product_type",
+ *      field_ui_base_route = "entity.product_type.edit_form",
+ * 
  *      links = {
  *          "canonical" = "/admin/structure/product/{product}",
- *          "add-form" = "/admin/structure/product/add",
+ *          "add-form" = "/admin/structure/product/add/{product_type}",
  *          "edit-form" = "/admin/structure/product/{product}/edit",
  *          "delete-form" = "/admin/structure/product/{product}/delete",
  *          "collection" = "/admin/structure/product",
- *      }
+ *          "add-page" = "/admin/structure/product/add"
+ *      },
  * )
  */
 
@@ -205,7 +210,7 @@ class Product extends ContentEntityBase implements ProductInterface
         return $this->get('created')->value;
     }
 
-    
+
     /**
      * {@inheritdoc}
      */

@@ -20,3 +20,6 @@ products.importer.*:
     source:
       type: string
       label: The source of the products
+    bundle:
+      type: string
+      label: The product bundle

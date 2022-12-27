@@ -41,7 +41,8 @@ use Drupal\Core\Url;
  *          "url",
  *          "plugin",
  *          "update_existing",
- *          "source"
+ *          "source",
+ *          "bundle",
  *      }
  * )
  */
@@ -96,6 +97,13 @@ class Importer extends ConfigEntityBase implements ImporterInterface
 
 
     /**
+     * The product bundle.
+     *
+     * @var string
+     */
+    protected $bundle;
+
+    /**
      * {@inheritdoc}
      */
     public function getUrl()
@@ -128,5 +136,14 @@ class Importer extends ConfigEntityBase implements ImporterInterface
     public function getSource()
     {
         return $this->source;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBundle()
+    {
+        return $this->bundle;
     }
 }
