@@ -15,4 +15,11 @@ interface ImporterPluginInterface extends PluginInspectionInterface
      * @return bool
      */
     public function import();
+
+    /**
+     * Returns the Importer configuration entity.
+     *
+     * @return \Drupal\products\Entity\ImporterInterface
+     */
+    public function getConfig();
 }

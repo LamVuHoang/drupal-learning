@@ -47,4 +47,5 @@ interface ImporterInterface extends ConfigEntityInterface
       * @return string
       */
      public function getBundle();
+
 }

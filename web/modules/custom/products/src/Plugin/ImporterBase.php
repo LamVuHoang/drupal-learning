@@ -29,11 +29,6 @@ abstract class ImporterBase extends PluginBase implements
     protected $httpClient;
 
     /**
-     * @var \Drupal\products\Plugin\ImporterManager
-     */
-    protected $_importerManager;
-
-    /**
      * {@inheritdoc}
      */
     public function __construct(
@@ -42,12 +37,10 @@ abstract class ImporterBase extends PluginBase implements
         $plugin_definition,
         EntityTypeManager $entityTypeManager,
         Client $httpClient,
-        ImporterManager $importerManager
     ) {
         parent::__construct($configuration, $plugin_id, $plugin_definition);
         $this->entityTypeManager = $entityTypeManager;
         $this->httpClient = $httpClient;
-        $this->_importerManager = $importerManager;
         if (!isset($configuration['config'])) {
             throw new PluginException('Missing Importer configuration.');
         }
@@ -72,7 +65,14 @@ abstract class ImporterBase extends PluginBase implements
             $plugin_definition,
             $container->get('entity_type.manager'),
             $container->get('http_client'),
-            $container->get('products.importer_manager')
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfig()
+    {
+        return $this->configuration['config'];
     }
 }

@@ -2,16 +2,21 @@
 
 namespace Drupal\products\Plugin;
 
-use Drupal\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * Provides the Importer plugin manager.
  */
 class ImporterManager extends DefaultPluginManager
 {
+    /**
+     * @var \Drupal\Core\Entity\EntityTypeManager
+     */
+    protected $entityTypeManager;
+
     /**
      * ImporterManager constructor.
      *
@@ -27,6 +32,7 @@ class ImporterManager extends DefaultPluginManager
         \Traversable $namespaces,
         CacheBackendInterface $cache_backend,
         ModuleHandlerInterface $module_handler,
+        EntityTypeManager $entityTypeManager
     ) {
         parent::__construct(
             'Plugin/Importer',
@@ -37,6 +43,7 @@ class ImporterManager extends DefaultPluginManager
         );
         $this->alterInfo('products_importer_info');
         $this->setCacheBackend($cache_backend, 'products_importer_plugins');
+        $this->entityTypeManager = $entityTypeManager;
     }
 
     public function createInstanceFromConfig($id)
@@ -49,5 +56,22 @@ class ImporterManager extends DefaultPluginManager
             $config->getPluginId(),
             ['config' => $config]
         );
+    }
+
+    public function createInstanceFromAllConfigs()
+    {
+        $configs = $this->entityTypeManager->getStorage('importer')->loadMultiple();
+        if (!$configs) {
+            return [];
+        }
+        $plugins = [];
+        foreach ($configs as $config) {
+            $plugin = $this->createInstanceFromConfig($config->id());
+            if (!$plugin) {
+                continue;
+            }
+            $plugins[] = $plugin;
+        }
+        return $plugins;
     }
 }

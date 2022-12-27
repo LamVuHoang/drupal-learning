@@ -34,10 +34,7 @@ class JsonImporter extends ImporterBase
         foreach ($products as $product) {
             $this->persistProduct($product);
         }
-
-        $this->_importerManager->createInstanceFromConfig(
-            $this->getPluginId()
-        );
+        
         return TRUE;
     }
 
@@ -77,7 +74,8 @@ class JsonImporter extends ImporterBase
         if (!$existing) {
             $values = [
                 'remote_id' => $data->id,
-                'source' => $config->getSource()
+                'source' => $config->getSource(),
+                'type' => $config->getBundle(),
             ];
 
             /** 
