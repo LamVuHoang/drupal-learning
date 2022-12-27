@@ -35,6 +35,9 @@ class JsonImporter extends ImporterBase
             $this->persistProduct($product);
         }
 
+        $this->_importerManager->createInstanceFromConfig(
+            $this->getPluginId()
+        );
         return TRUE;
     }
 

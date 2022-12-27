@@ -2,6 +2,7 @@
 
 namespace Drupal\products\Plugin;
 
+use Drupal\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -25,7 +26,7 @@ class ImporterManager extends DefaultPluginManager
     public function __construct(
         \Traversable $namespaces,
         CacheBackendInterface $cache_backend,
-        ModuleHandlerInterface $module_handler
+        ModuleHandlerInterface $module_handler,
     ) {
         parent::__construct(
             'Plugin/Importer',
