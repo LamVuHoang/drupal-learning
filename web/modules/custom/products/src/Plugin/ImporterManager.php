@@ -5,7 +5,7 @@ namespace Drupal\products\Plugin;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Provides the Importer plugin manager.
@@ -13,9 +13,9 @@ use Drupal\Core\Entity\EntityTypeManager;
 class ImporterManager extends DefaultPluginManager
 {
     /**
-     * @var \Drupal\Core\Entity\EntityTypeManager
+     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
      */
-    protected $entityTypeManager;
+    protected $entityTypeManagerInterface;
 
     /**
      * ImporterManager constructor.
@@ -32,7 +32,7 @@ class ImporterManager extends DefaultPluginManager
         \Traversable $namespaces,
         CacheBackendInterface $cache_backend,
         ModuleHandlerInterface $module_handler,
-        EntityTypeManager $entityTypeManager
+        EntityTypeManagerInterface $entityTypeManagerInterface
     ) {
         parent::__construct(
             'Plugin/Importer',
@@ -43,12 +43,12 @@ class ImporterManager extends DefaultPluginManager
         );
         $this->alterInfo('products_importer_info');
         $this->setCacheBackend($cache_backend, 'products_importer_plugins');
-        $this->entityTypeManager = $entityTypeManager;
+        $this->entityTypeManagerInterface = $entityTypeManagerInterface;
     }
 
     public function createInstanceFromConfig($id)
     {
-        $config = $this->entityTypeManager->getStorage('importer')->load($id);
+        $config = $this->entityTypeManagerInterface->getStorage('importer')->load($id);
         if (!$config instanceof \Drupal\products\Entity\ImporterInterface) {
             return NULL;
         }
@@ -60,7 +60,7 @@ class ImporterManager extends DefaultPluginManager
 
     public function createInstanceFromAllConfigs()
     {
-        $configs = $this->entityTypeManager->getStorage('importer')->loadMultiple();
+        $configs = $this->entityTypeManagerInterface->getStorage('importer')->loadMultiple();
         if (!$configs) {
             return [];
         }
