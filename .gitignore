@@ -66,14 +66,10 @@
 /drupal
 /bin
 
-# Ignore composer lock
-composer.lock
-.editorconfig
-.gitattributes
-
 # Ignore auto-generate file
 composer.lock
 .editorconfig
+.gitattributes
 
 # Contrib Theme
 /web/themes/contrib/bootstrap
