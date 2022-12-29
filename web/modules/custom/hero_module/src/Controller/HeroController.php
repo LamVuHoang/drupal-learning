@@ -84,7 +84,15 @@ class HeroController extends ControllerBase
     public function welcome()
     {
         return [
-            '#markup' => $this->_heroArticleService->getSalutation()
+            '#items' => $this->_heroArticleService->getSalutation(),
+            '#title' => 'HeroArticleService',
+            '#target' => $this->t('world'),
+            '#theme' => 'clock',
+            '#attached' => [
+                'library' => [
+                    'hero_module/hello_world_clock'
+                ]
+            ]
         ];
     }
 

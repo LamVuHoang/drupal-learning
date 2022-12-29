@@ -17,6 +17,13 @@ function hero_module_theme($existing, $type, $theme, $path)
                 'items' => [],
                 'title' => ''
             ]
+        ],
+        'clock' => [
+            'variables' => [
+                'items' => '',
+                'title' => '',
+                'target' => ''
+            ]
         ]
     ];
 }
