@@ -48,6 +48,8 @@ class JsonImporter extends ImporterBase
         /** 
          * @var \Drupal\products\Entity\ImporterInterface $config
          */
+
+        //  Should have Error Handling
         $config = $this->configuration['config'];
         $request = $this->httpClient->get($config->getUrl()->toString());
         $string = $request->getBody()->getContents();
