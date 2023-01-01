@@ -27,3 +27,4 @@ function hero_module_theme($existing, $type, $theme, $path)
         ]
     ];
 }
+

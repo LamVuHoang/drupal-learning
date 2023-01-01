@@ -23,9 +23,9 @@ hero_module.double-name:
     _permission: "access content"
 
 hero_module.salutation:
-  path: "/welcome"
+  path: "/clock"
   defaults:
-    _controller: Drupal\hero_module\Controller\HeroController::welcome
+    _controller: Drupal\hero_module\Controller\HeroController::clock
     _title: "Salutation"
   requirements:
     _permission: "access content"
@@ -45,3 +45,11 @@ hero_module.test-repo:
     _title: "Test Repository"
   requirements:
     _permission: "access content"
+
+hello_world.greeting_form:
+  path: "/admin/config/salutation-configuration"
+  defaults:
+    _form: Drupal\hero_module\Form\SalutationConfigurationForm
+    _title: "Salutation configuration"
+  requirements:
+    _permission: "administer site configuration"

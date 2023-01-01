@@ -81,10 +81,10 @@ class HeroController extends ControllerBase
      * 
      * @return array
      */
-    public function welcome()
+    public function clock()
     {
         return [
-            '#items' => $this->_heroArticleService->getSalutation(),
+            '#items' => $this->_heroArticleService->clock(),
             '#title' => 'HeroArticleService',
             '#target' => $this->t('world'),
             '#theme' => 'clock',

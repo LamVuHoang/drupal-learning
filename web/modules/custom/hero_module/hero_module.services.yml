@@ -1,3 +1,5 @@
 services:
   hero_module.getSalutation:
     class: Drupal\hero_module\HeroArticleService
+    arguments: ["@config.factory"]
+  #  Argument map to Drupal\Core\Config\ConfigFactory
