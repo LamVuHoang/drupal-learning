@@ -38,8 +38,8 @@ use Drupal\Core\Url;
  *      config_export = {
  *          "id",
  *          "label",
- *          "url",
  *          "plugin",
+ *          "plugin_configuration",
  *          "update_existing",
  *          "source",
  *          "bundle",
@@ -69,8 +69,15 @@ class Importer extends ConfigEntityBase implements ImporterInterface
      *
      * @var string
      */
-    protected $url;
+    //  This property is specific to JsonImporter only
+    // protected $url;
 
+    /**
+     * The configuration specific to the plugin.
+     *
+     * @var array
+     */
+    protected $plugin_configuration = [];
 
     /**
      * The plugin ID of the plugin to be used for processing this import.
@@ -146,4 +153,22 @@ class Importer extends ConfigEntityBase implements ImporterInterface
     {
         return $this->bundle;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPluginConfiguration()
+    {
+        return $this->plugin_configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPluginConfiguration($configuration)
+    {
+        $this->plugin_configuration = $configuration;
+    }
+
+    
 }

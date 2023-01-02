@@ -49,12 +49,13 @@ class ImporterManager extends DefaultPluginManager
     public function createInstanceFromConfig($id)
     {
         $config = $this->entityTypeManagerInterface->getStorage('importer')->load($id);
+        $configuration = ['config' => $config] + $config->getPluginConfiguration();
         if (!$config instanceof \Drupal\products\Entity\ImporterInterface) {
             return NULL;
         }
         return $this->createInstance(
             $config->getPluginId(),
-            ['config' => $config]
+            $configuration
         );
     }
 

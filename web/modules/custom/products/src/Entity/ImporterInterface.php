@@ -15,7 +15,8 @@ interface ImporterInterface extends ConfigEntityInterface
       *
       * @return Url
       */
-     public function getUrl();
+     //  This method is specific to JsonImporter only
+     // public function getUrl();
 
 
      /**
@@ -48,4 +49,18 @@ interface ImporterInterface extends ConfigEntityInterface
       */
      public function getBundle();
 
+     /**
+      * Returns the configuration specific to the chosen plugin.
+      *
+      * @return array
+      */
+     public function getPluginConfiguration();
+     
+     /**
+      * Sets the plugin configuration.
+      *
+      * @param array $configuration
+      * The plugin configuration.
+      */
+     public function setPluginConfiguration($configuration);
 }

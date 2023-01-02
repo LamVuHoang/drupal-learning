@@ -3,6 +3,8 @@
 namespace Drupal\products\Plugin\Importer;
 
 use Drupal\products\Plugin\ImporterBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Product importer from a JSON format.
@@ -14,6 +16,7 @@ use Drupal\products\Plugin\ImporterBase;
  */
 class JsonImporter extends ImporterBase
 {
+    use StringTranslationTrait;
     /**
      * {@inheritdoc}
      */
@@ -34,7 +37,7 @@ class JsonImporter extends ImporterBase
         foreach ($products as $product) {
             $this->persistProduct($product);
         }
-        
+
         return TRUE;
     }
 
@@ -50,8 +53,7 @@ class JsonImporter extends ImporterBase
          */
 
         //  Should have Error Handling
-        $config = $this->configuration['config'];
-        $request = $this->httpClient->get($config->getUrl()->toString());
+        $request = $this->httpClient->get($this->configuration['url']);
         $string = $request->getBody()->getContents();
         return json_decode($string);
     }
@@ -100,5 +102,42 @@ class JsonImporter extends ImporterBase
         $product->setName($data->name);
         $product->setProductNumber($data->number);
         $product->save();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function defaultConfiguration()
+    {
+        return [
+            'url' => '',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildConfigurationForm(
+        array $form,
+        FormStateInterface $form_state
+    ) {
+        $form['url'] = [
+            '#type' => 'url',
+            '#default_value' => $this->configuration['url'],
+            '#title' => $this->t('Url'),
+            '#description' => $this->t('The URL to the import resource'),
+            '#required' => TRUE,
+        ];
+        return $form;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function submitConfigurationForm(
+        array &$form,
+        FormStateInterface $form_state
+    ) {
+        $this->configuration['url'] = $form_state->getValue('url');
     }
 }

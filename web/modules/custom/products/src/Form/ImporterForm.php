@@ -8,6 +8,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\products\Plugin\ImporterManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Form\SubformState;
 
 /**
  * Form for creating/editing Importer entities.
@@ -72,13 +73,13 @@ class ImporterForm extends EntityForm
             '#disabled' => !$importer->isNew(),
         ];
 
-        $form['url'] = [
-            '#type' => 'url',
-            '#default_value' => $importer->getUrl() instanceof Url ?    $importer->getUrl()->toString() : '',
-            '#title' => $this->t('Url'),
-            '#description' => $this->t('The URL to the import resource'),
-            '#required' => TRUE,
-        ];
+        // $form['url'] = [
+        //     '#type' => 'url',
+        //     '#default_value' => $importer->getUrl() instanceof Url ?    $importer->getUrl()->toString() : '',
+        //     '#title' => $this->t('Url'),
+        //     '#description' => $this->t('The URL to the import resource'),
+        //     '#required' => TRUE,
+        // ];
 
         $definitions = $this->importerManager->getDefinitions();
         $options = [];
@@ -93,7 +94,45 @@ class ImporterForm extends EntityForm
             '#options' => $options,
             '#description' => $this->t('The plugin to be used with this importer.'),
             '#required' => TRUE,
+            '#empty_option' => $this->t('Please select a plugin'),
+            '#ajax' => [
+                'callback' => [$this, 'pluginConfigAjaxCallback'],
+                'wrapper' => 'plugin-configuration-wrapper'
+            ],
         ];
+
+        $form['plugin_configuration'] = [
+            '#type' => 'hidden',
+            '#attributes' => [
+                'id' => 'plugin-configuration-wrapper'
+            ],
+            '#tree' => TRUE,
+            '#open' => TRUE,
+        ];
+        $plugin_id = NULL;
+        if ($importer->getPluginId()) {
+            $plugin_id = $importer->getPluginId();
+        }
+        if ($form_state->getValue('plugin') && $plugin_id !== $form_state->getValue('plugin')) {
+            $plugin_id = $form_state->getValue('plugin');
+        }
+        if ($plugin_id) {
+            $existing_config = [
+                'config' => $importer
+            ] + $importer->getPluginConfiguration();
+            $plugin = $this->importerManager->createInstance($plugin_id, $existing_config);
+            $form['plugin_configuration']['#type'] = 'details';
+            $form['plugin_configuration']['#title'] = $this->t('Plugin configuration for <em>@plugin</em>', [
+                '@plugin' => $plugin->getPluginDefinition()['label']
+            ]);
+            $form['plugin_configuration'][$plugin_id] = [
+                '#process' => [[
+                    get_class($this),
+                    'processPluginConfiguration'
+                ]],
+                '#plugin' => $plugin,
+            ];
+        }
 
         $form['update_existing'] = [
             '#type' => 'checkbox',
@@ -144,5 +183,68 @@ class ImporterForm extends EntityForm
                 ]));
         }
         $form_state->setRedirectUrl($importer->toUrl('collection'));
+    }
+
+    /**
+     * Ajax callback for the plugin configuration form elements.
+     *
+     * @param $form
+     * @param \Drupal\Core\Form\FormStateInterface $form_state
+     *
+     * @return array
+     */
+    public function pluginConfigAjaxCallback(
+        $form,
+        FormStateInterface $form_state
+    ) {
+        return $form['plugin_configuration'];
+    }
+
+    public static function processPluginConfiguration(
+        array
+        &$element,
+        FormStateInterface $form_state
+    ) {
+        /** @var \Drupal\products\Plugin\ImporterPluginInterface $plugin */
+        $plugin = $element['#plugin'];
+        $subform_state = SubformState::createForSubform(
+            $element,
+            $form_state->getCompleteForm(),
+            $form_state
+        );
+        return $plugin->buildConfigurationForm($element, $subform_state);
+    }
+
+    /**
+     * {@inhertidoc}
+     */
+    public function buildEntity(
+        array $form,
+        FormStateInterface $form_state
+    ) {
+        if ($form_state->getValue('plugin_configuration') == "") {
+            $form_state->setValue('plugin_configuration', []);
+        }
+        /** @var \Drupal\products\Entity\ImporterInterface $entity */
+        $entity = parent::buildEntity($form, $form_state);
+        $plugin_id = $form_state->getValue('plugin');
+        if ($plugin_id) {
+            $configuration = ['config' => $entity];
+            $plugin_configuration = $form_state->getValue(['plugin_configuration', $plugin_id]);
+            if ($plugin_configuration) {
+                $configuration += $plugin_configuration;
+            }
+            /** @var \Drupal\Core\Plugin\PluginFormInterface $plugin */
+            $plugin = $this->importerManager->createInstance($plugin_id, $configuration);
+            if (isset($form['plugin_configuration'][$plugin_id])) {
+                $subform_state =
+                    SubformState::createForSubform($form['plugin_configuration'][$plugin_id], $form_state->getCompleteForm(), $form_state);
+                $plugin->submitConfigurationForm($form['plugin_configuration'][$plugin_id], $subform_state);
+            }
+            $configuration = $plugin->getConfiguration();
+            unset($configuration['config']);
+            $entity->setPluginConfiguration($configuration);
+        }
+        return $entity;
     }
 }
