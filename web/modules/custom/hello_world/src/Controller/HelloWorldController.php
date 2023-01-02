@@ -5,6 +5,10 @@ namespace Drupal\hello_world\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\hello_world\HelloWorldSalutation;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RemoveCommand;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for the salutation message.
@@ -41,8 +45,25 @@ class HelloWorldController extends ControllerBase
      */
     public function helloWorld()
     {
-        return [
-            '#markup' => $this->salutation->getSalutation(),
-        ];
+        return $this->salutation->getSalutationComponent();
+    }
+
+    /**
+     * Route callback for hiding the Salutation block.
+     * Only works for Ajax calls.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Drupal\Core\Ajax\AjaxResponse
+     */
+    public function hideBlock(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new NotFoundHttpException();
+        }
+        $response = new AjaxResponse();
+        $command = new RemoveCommand('.block-hello-world');
+        $response->addCommand($command);
+        return $response;
     }
 }

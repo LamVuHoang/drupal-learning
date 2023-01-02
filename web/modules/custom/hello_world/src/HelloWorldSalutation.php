@@ -55,9 +55,7 @@ class HelloWorldSalutation
             return $event->getValue();
         }
 
-
-        $time = new \DateTime();
-        $now = (int) $time->format('G');
+        $now = $this->timeNow();
 
         if ($now >= 00 && $now < 12) {
             return $this->t('Good morning world');
@@ -68,5 +66,55 @@ class HelloWorldSalutation
         if ($now >= 18) {
             return $this->t('Good evening world');
         }
+    }
+
+    /**
+     * Returns the Salutation render array.
+     */
+    public function getSalutationComponent()
+    {
+        $render = [
+            '#theme' => 'hello_world_salutation',
+        ];
+        $config = $this->configFactory->get('hello_world.custom_salutation');
+        $salutation = $config->get('salutation');
+
+        if ($salutation !== "" && $salutation) {
+            $event = new SalutationEvent();
+            $event->setValue($salutation);
+            $this->eventDispatcher->dispatch(SalutationEvent::EVENT, $event);
+            $render['#salutation'] = $event->getValue();
+            $render['#overridden'] = TRUE;
+            return $render;
+        }
+
+        $now = $this->timeNow();
+        $render['#target'] = $this->t('world');
+        $render['#attached'] = [
+            'library' => [
+                'hello_world/hello_world_clock'
+            ]
+        ];
+
+        if ($now >= 00 && $now < 12) {
+            $render['#salutation']['#markup'] = $this->t('Good morning');
+            $render['#attached']['drupalSettings']['hello_world']['hello_world_clock']['morning'] = TRUE;
+        }
+        if ($now >= 12 && $now < 18) {
+            $render['#salutation']['#markup'] = $this->t('Good afternoon');
+            $render['#attached']['drupalSettings']['hello_world']['hello_world_clock']['afternoon'] = TRUE;
+        }
+        if ($now >= 18) {
+            $render['#salutation']['#markup'] = $this->t('Good evening');
+            $render['#attached']['drupalSettings']['hello_world']['hello_world_clock']['evening'] = TRUE;
+        }
+
+        return $render;
+    }
+
+    private function timeNow()
+    {
+        $time = new \DateTime();
+        return ((int) $time->format('G'));
     }
 }

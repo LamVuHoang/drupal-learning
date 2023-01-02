@@ -7,6 +7,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\hello_world\HelloWorldSalutation;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 /**
  * Hello World Salutation block.
@@ -62,9 +63,21 @@ class HelloWorldSalutationBlock extends BlockBase implements
      */
     public function build()
     {
-        return [
-            '#markup' => $this->salutation->getSalutation(),
+        $build = [];
+        $build[] = [
+            '#theme' => 'container',
+            '#children' => [
+                '#markup' => $this->salutation->getSalutation(),
+            ]
         ];
+        $url = Url::fromRoute('hello_world.hide_block');
+        $url->setOption('attributes', ['class' => 'use-ajax']);
+        $build[] = [
+            '#type' => 'link',
+            '#url' => $url,
+            '#title' => $this->t('Remove'),
+        ];
+        return $build;
     }
 
     /**

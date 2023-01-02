@@ -1,0 +1,13 @@
+{# <div class="salutation">
+	Good morning
+	<span class="salutation—target">world</span>
+</div> #}
+
+
+<div {{ attributes }}>
+	{{ salutation }}
+	{% if target %}
+		<span class="salutation—target">{{ target }}</span>
+	{% endif %}
+	<div class="clock"></div>
+</div>
