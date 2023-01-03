@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_views_data().
+ */
+function sports_views_data()
+{
+    $data = [];
+    // Players table
+    $data['players'] = [];
+    $data['players']['table']['group'] = t('Sports');
+    $data['players']['table']['base'] = [
+        'field' => 'id',
+        'title' => t('Players'),
+        'help' => t('Holds player data.'),
+    ];
+    // Player fields
+    $data['players']['id'] = [
+        'title' => t('ID'),
+        'help' => t('The unique player ID.'),
+        'field' => [
+            'id' => 'numeric',
+        ],
+    ];
+    return $data;
+}

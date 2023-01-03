@@ -24,9 +24,11 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *              "edit" = "Drupal\products\Form\ProductForm",
  *              "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *          },
+ * 
  *          "route_provider" = {
  *              "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider"
- *          }
+ *          },
+ *          "views_data" = "Drupal\products\Entity\ProductViewsData"
  *      },
  *      base_table = "product",
  *      admin_permission = "administer site configuration",
