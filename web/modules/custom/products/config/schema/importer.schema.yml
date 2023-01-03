@@ -8,9 +8,9 @@ products.importer.*:
     label:
       type: label
       label: "Label"
-    url:
-      type: uri
-      label: Uri
+    # url:
+    #   type: uri
+    #   label: Uri
     plugin:
       type: string
       label: Plugin ID

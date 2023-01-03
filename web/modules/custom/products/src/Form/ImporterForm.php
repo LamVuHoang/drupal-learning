@@ -201,8 +201,7 @@ class ImporterForm extends EntityForm
     }
 
     public static function processPluginConfiguration(
-        array
-        &$element,
+        array &$element,
         FormStateInterface $form_state
     ) {
         /** @var \Drupal\products\Plugin\ImporterPluginInterface $plugin */

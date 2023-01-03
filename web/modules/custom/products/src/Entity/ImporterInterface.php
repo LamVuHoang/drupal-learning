@@ -10,11 +10,11 @@ use Drupal\Core\Url;
  */
 interface ImporterInterface extends ConfigEntityInterface
 {
-     /**
-      * Returns the Url where the import can get the data from.
-      *
-      * @return Url
-      */
+     // /**
+     //  * Returns the Url where the import can get the data from.
+     //  *
+     //  * @return Url
+     //  */
      //  This method is specific to JsonImporter only
      // public function getUrl();
 
