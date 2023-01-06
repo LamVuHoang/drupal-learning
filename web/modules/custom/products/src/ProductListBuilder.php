@@ -8,8 +8,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 /**
- * EntityListBuilderInterface implementation responsible for
-the Product entities.
+ * EntityListBuilderInterface implementation responsible for the Product entities.
  */
 class ProductListBuilder extends EntityListBuilder
 {

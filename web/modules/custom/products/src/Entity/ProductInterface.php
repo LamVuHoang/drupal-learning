@@ -103,4 +103,21 @@ interface ProductInterface extends ContentEntityInterface, EntityChangedInterfac
      * The called Product entity.
      */
     public function setCreatedTime($timestamp);
+
+    /**
+     * Gets the Product image.
+     *
+     * @return \Drupal\file\FileInterface
+     */
+    public function getImage();
+    
+    /**
+     * Sets the Product image.
+     *
+     * @param int $image
+     *
+     * @return \Drupal\products\Entity\ProductInterface
+     * The called Product entity.
+     */
+    public function setImage($image);
 }

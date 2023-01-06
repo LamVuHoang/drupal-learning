@@ -20,3 +20,14 @@ views.field.product_importer:
     importer:
       type: string
       label: "Which importer label to use: entity or plugin"
+
+products.importer.plugin.csv:
+  type: mapping
+  label: Plugin configuration for the CSV importer plugin
+  mapping:
+    file:
+      type: sequence
+      label: File IDs
+      sequence:
+        type: integer
+        label: CSV File ID

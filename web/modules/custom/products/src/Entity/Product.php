@@ -100,6 +100,18 @@ class Product extends ContentEntityBase implements ProductInterface
             ->setDisplayConfigurable('form', TRUE)
             ->setDisplayConfigurable('view', TRUE);
 
+        $fields['image'] = BaseFieldDefinition::create('image')
+            ->setLabel(t('Image'))
+            ->setDescription(t('The product image.'))
+            ->setDisplayOptions('form', array(
+                'type' => 'image_image',
+                'weight' => 5,
+            ))
+            ->setDisplayOptions('view', [
+                'label' => 'above',
+                'type' => 'image'
+            ]);
+
         $fields['remote_id'] = BaseFieldDefinition::create('string')
             ->setLabel(t('Remote ID'))
             ->setDescription(t('The remote ID of the Product.'))
@@ -219,6 +231,24 @@ class Product extends ContentEntityBase implements ProductInterface
     public function setCreatedTime($timestamp)
     {
         $this->set('created', $timestamp);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getImage()
+    {
+        return $this->get('image')->entity;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setImage($image)
+    {
+        $this->set('image', $image);
         return $this;
     }
 }

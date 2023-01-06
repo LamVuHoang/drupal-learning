@@ -5,6 +5,11 @@ namespace Drupal\products\Plugin\Importer;
 use Drupal\products\Plugin\ImporterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\products\Entity\ProductInterface;
+use Drupal\Core\File\FileSystemInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
+use GuzzleHttp\Client;
 
 /**
  * Product importer from a JSON format.
@@ -17,6 +22,50 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class JsonImporter extends ImporterBase
 {
     use StringTranslationTrait;
+
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    protected $httpClient;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        EntityTypeManager $entityTypeManager,
+        Client $httpClient,
+    ) {
+        parent::__construct(
+            $configuration,
+            $plugin_id,
+            $plugin_definition,
+            $entityTypeManager
+        );
+        $this->httpClient = $httpClient;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create(
+        ContainerInterface $container,
+        array $configuration,
+        $plugin_id,
+        $plugin_definition
+    ) {
+        return new static(
+            $configuration,
+            $plugin_id,
+            $plugin_definition,
+            $container->get('entity_type.manager'),
+            $container->get('http_client'),
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -88,6 +137,8 @@ class JsonImporter extends ImporterBase
             $product = $this->entityTypeManager->getStorage('product')->create($values);
             $product->setName($data->name);
             $product->setProductNumber($data->number);
+            // Handle Image
+            $this->handleProductImage($data, $product);
             $product->save();
             return;
         }
@@ -139,5 +190,40 @@ class JsonImporter extends ImporterBase
         FormStateInterface $form_state
     ) {
         $this->configuration['url'] = $form_state->getValue('url');
+    }
+
+    /**
+     * Imports the image of the product and adds it to the Product entity.
+     *
+     * @param $data
+     * @param \Drupal\products\Entity\ProductInterface $product
+     */
+    protected function handleProductImage(
+        $data,
+        ProductInterface $product
+    ) {
+        $name = $data->image;
+        // This needs to be hardcoded for the moment.
+        // $image_path = '';
+        // $image = file_get_contents($image_path . '/' . $name);
+
+        $image = file_get_contents('products://' . $name);
+
+
+        if (!$image) {
+            // Perhaps log something.
+            return;
+        }
+        /** @var \Drupal\file\FileInterface $file */
+        $file = file_save_data(
+            $image,
+            'public://product_images/' . $name,
+            FileSystemInterface::EXISTS_REPLACE
+        );
+        if (!$file) {
+            // Something went wrong, perhaps log it.
+            return;
+        }
+        $product->setImage($file->id());
     }
 }

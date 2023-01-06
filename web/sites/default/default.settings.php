@@ -506,7 +506,7 @@ $settings['update_free_access'] = FALSE;
  * must exist and be writable by Drupal. This directory must be relative to
  * the Drupal installation directory and be accessible over the web.
  */
-$settings['file_public_path'] = 'sites/default/files';
+# $settings['file_public_path'] = 'sites/default/files';
 
 /**
  * Additional public file schemes:
@@ -544,7 +544,7 @@ $settings['file_public_path'] = 'sites/default/files';
  * See https://www.drupal.org/documentation/modules/file for more information
  * about securing private files.
  */
-$settings['file_private_path'] = 'sites/default/private';
+# $settings['file_private_path'] = '';
 
 /**
  * Temporary file path:

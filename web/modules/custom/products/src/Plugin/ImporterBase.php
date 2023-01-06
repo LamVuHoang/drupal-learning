@@ -8,7 +8,6 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\products\Entity\ImporterInterface;
-use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -26,12 +25,6 @@ abstract class ImporterBase extends PluginBase implements
      */
     protected $entityTypeManager;
 
-
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $httpClient;
-
     /**
      * {@inheritdoc}
      */
@@ -40,11 +33,14 @@ abstract class ImporterBase extends PluginBase implements
         $plugin_id,
         $plugin_definition,
         EntityTypeManager $entityTypeManager,
-        Client $httpClient,
     ) {
-        parent::__construct($configuration, $plugin_id, $plugin_definition);
+        parent::__construct(
+            $configuration, 
+            $plugin_id, 
+            $plugin_definition
+        );
         $this->entityTypeManager = $entityTypeManager;
-        $this->httpClient = $httpClient;
+
         if (!isset($configuration['config'])) {
             throw new PluginException('Missing Importer configuration.');
         }
@@ -71,7 +67,6 @@ abstract class ImporterBase extends PluginBase implements
             $plugin_id,
             $plugin_definition,
             $container->get('entity_type.manager'),
-            $container->get('http_client'),
         );
     }
 
